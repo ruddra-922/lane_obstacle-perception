@@ -5,8 +5,8 @@ An integrated, CPU-optimized computer vision system for autonomous vehicle navig
 **Course:** Computer Vision (CSE3010) — VIT Bhopal University  
 **Author:** Ruddraksh Dwivedi  
 **Registration Number:** 24BAC10060  
-**GitHub Profile:** [dyash8826](https://github.com/dyash8826)  
-**Repository:** [https://github.com/dyash8826/lane-obstacle-perception](https://github.com/dyash8826/lane-obstacle-perception)  
+**GitHub Profile:** [ruddra-922](https://github.com/ruddra-922)  
+**Repository:** [https://github.com/ruddra-922/lane_obstacle-perception](https://github.com/ruddra-922/lane_obstacle-perception)  
 
 ---
 
@@ -52,16 +52,26 @@ Camera Input Frame
 
 ---
 
-## 2. Project Directory Structure
+## 2. Visual Perception Results
+
+| Straight Highway (Low Risk) | Lead Vehicle Proximity (Hazard Warning) |
+|:---:|:---:|
+| ![Straight Highway Perception](outputs/predictions/annotated_straight_safe.jpg) | ![Lead Vehicle Warning](outputs/predictions/annotated_close_obstacle.jpg) |
+| *Real-time telemetry HUD: Curvature = 250 m, Offset = +0.07 m (Centered)* | *Safety Alert HUD: Collision risk elevated, Active braking trigger* |
+
+---
+
+## 3. Project Directory Structure
 
 ```
-lane-obstacle-perception/
+lane_obstacle-perception/
 ├── configs/
 │   └── default_config.yaml     # Pipeline hyperparameters, thresholds & calibration
 ├── data/
 │   ├── samples/                # Sample test road scenes
 │   └── synthetic_generator.py  # Realistic road frame generator
 ├── outputs/
+│   ├── diagrams/               # Architecture, UML and workflow diagrams
 │   └── predictions/            # Annotated visual outputs and telemetry
 ├── src/
 │   ├── __init__.py             # Package declaration
@@ -78,6 +88,7 @@ lane-obstacle-perception/
 │   ├── test_geometry.py        # Curvature and offset mathematical tests
 │   └── test_pipeline.py        # End-to-end integration test
 ├── .gitignore
+├── computer_vision_project_report.pdf # Formal 10-page evaluation report
 ├── main.py                     # Unified CLI entrypoint
 ├── README.md                   # Project documentation
 ├── requirements.txt            # Minimal dependency manifest
@@ -87,7 +98,7 @@ lane-obstacle-perception/
 
 ---
 
-## 3. Prerequisites & Environment Setup
+## 4. Prerequisites & Environment Setup
 
 - **Python:** Version 3.9 or later (tested on Python 3.10)
 - **RAM:** Minimum 4 GB (8 GB recommended)
@@ -95,15 +106,15 @@ lane-obstacle-perception/
 
 ### Step 1: Clone Repository
 ```bash
-git clone https://github.com/dyash8826/lane-obstacle-perception.git
-cd lane-obstacle-perception
+git clone https://github.com/ruddra-922/lane_obstacle-perception.git
+cd lane_obstacle-perception
 ```
 
 ### Step 2: Create & Activate Virtual Environment
 ```bash
 # Windows
 python -m venv venv
-venv\Scriptsctivate
+venv\Scripts\activate
 
 # Linux / macOS
 python3 -m venv venv
@@ -117,7 +128,7 @@ pip install -r requirements.txt
 
 ---
 
-## 4. Execution & CLI Usage
+## 5. Execution & CLI Usage
 
 The project is fully executable from the command line interface without requiring any GUI setup.
 
@@ -125,23 +136,23 @@ The project is fully executable from the command line interface without requirin
 ```bash
 python main.py --generate-samples
 ```
-Generates 5 realistic test road scenes in `data/samples/` (`straight_safe.jpg`, `curved_right.jpg`, `curved_left.jpg`, `close_obstacle.jpg`, `empty_highway.jpg`).
+Generates realistic test road scenes in `data/samples/` (`straight_safe.jpg`, `curved_right.jpg`, `curved_left.jpg`, `close_obstacle.jpg`, `empty_highway.jpg`).
 
 ### 2. Single Image Perception
 ```bash
-python main.py --input data/samples/straight_safe.jpg --output outputs/predictions/result_straight.jpg
+python main.py --input data/samples/straight_safe.jpg --output outputs/predictions/annotated_straight_safe.jpg
 ```
 
 **Terminal Output:**
 ```text
 [+] Processed: data/samples/straight_safe.jpg
-[+] Output saved: outputs/predictions/result_straight.jpg
+[+] Output saved: outputs/predictions/annotated_straight_safe.jpg
 [+] Telemetry Summary:
-    - Curvature Radius : 1553.2 m
-    - Lateral Offset   : 0.18 m (IN_LANE)
+    - Curvature Radius : 250.0 m
+    - Lateral Offset   : 0.07 m (IN_LANE)
     - Obstacles Found  : 1
     - Collision Risk   : LOW
-    - Frame Latency    : 63.40 ms
+    - Frame Latency    : 50.22 ms
 ```
 
 ### 3. Batch Directory Processing
@@ -170,7 +181,7 @@ Performance Status     : PASSED (< 150 ms requirement)
 
 ---
 
-## 5. Automated Unit Testing
+## 6. Automated Unit Testing
 
 Run the automated test suite to verify pipeline integrity:
 
@@ -194,7 +205,7 @@ OK
 
 ---
 
-## 6. Technical Specifications & Non-Functional Requirements
+## 7. Technical Specifications & Non-Functional Requirements
 
 | Metric / Parameter | Design Target | Achieved Performance | Evaluation Status |
 |---|---|---|---|
@@ -206,6 +217,20 @@ OK
 
 ---
 
-## 7. License & Acknowledgements
+## 8. Troubleshooting
 
-This project was developed for the academic curriculum of **Computer Vision (CSE3010)** at **VIT Bhopal University**.
+| Issue | Likely Cause | Recommended Fix |
+|---|---|---|
+| `ModuleNotFoundError: No module named 'src'` | Running from outside the project directory | Ensure you are in the project root containing `src/` and run `python main.py` |
+| `FileNotFoundError: data/samples/` | Sample images not generated yet | Execute `python main.py --generate-samples` first |
+| `cv2.error` on image load | Corrupted or unsupported input image format | Verify input image exists and is a valid `.jpg` or `.png` |
+| Low FPS / high latency | Background CPU-heavy processes running | The pipeline is benchmarked at ~50 ms on CPU; close competing background processes |
+
+---
+
+## 9. Author & Acknowledgements
+
+**Ruddraksh Dwivedi**  
+Registration Number: 24BAC10060  
+B.Tech Computer Science & Engineering (AI & ML), VIT Bhopal University  
+Course: Computer Vision (CSE3010)
