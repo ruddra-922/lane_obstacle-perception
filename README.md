@@ -234,3 +234,4 @@ OK
 Registration Number: 24BAC10060  
 B.Tech Computer Science & Engineering (AI & ML), VIT Bhopal University  
 Course: Computer Vision (CSE3010)
+
